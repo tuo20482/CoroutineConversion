@@ -8,9 +8,8 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
-    //TODO (Refactor to replace Thread code with coroutines)
-
     private lateinit var cakeImageView: ImageView
+    private var animation: Job? = null
     private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +18,14 @@ class MainActivity : AppCompatActivity() {
 
         cakeImageView = findViewById(R.id.imageView)
 
-        findViewById<Button>(R.id.revealButton).setOnClickListener{
-            scope.launch {
+        findViewById<Button>(R.id.revealButton).setOnClickListener {
+            animation?.cancel()
+            animation = scope.launch {
                 for (i in 0..100) {
-                    cakeImageView.alpha = i / 100f
-                    delay(40)
+                    if (isActive) {
+                        cakeImageView.alpha = i / 100f
+                        delay(40)
+                    }
                 }
             }
         }
