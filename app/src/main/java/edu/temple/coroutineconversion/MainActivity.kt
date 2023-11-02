@@ -11,12 +11,12 @@ class MainActivity : AppCompatActivity() {
 
     //TODO (Refactor to replace Thread code with coroutines)
 
-    lateinit var cakeImageView: ImageView
+    private lateinit var cakeImageView: ImageView
 
-    val handler = Handler(Looper.getMainLooper(), Handler.Callback {
+    private val handler = Handler(Looper.getMainLooper()) {
         cakeImageView.alpha = it.what / 100f
         true
-    })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
